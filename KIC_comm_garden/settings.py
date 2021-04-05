@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Additionally required by allauth:
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -66,10 +71,45 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # required in order to use {{ MEDIA_URL }} in our templates
+                # https://docs.djangoproject.com/en/3.1/ref/settings/
+                'django.template.context_processors.media',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+"""
+By default allauth will send confirmation emails to any new accounts.
+We'll need to temporarily log those emails to the console
+so we can get the confirmation links.
+To do that we can set the EMAIL_BACKEND setting:
+"""
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+"""
+The 'account authentication method' is what tells allauth that we want to allow
+authentication using either usernames OR email.
+Other settings below it are fairly self-explanatory
+"""
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True  # Just in case of typos
+ACCOUNT_USERNAME_MIN_LENGTH = 5
+# Specify a login url and a url to redirect back to after logging in
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
 
 WSGI_APPLICATION = 'KIC_comm_garden.wsgi.application'
 
@@ -122,3 +162,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+"""
+Although normally we would also want to supply a static route
+setting here for Django's collectstatic utility to work,
+we're not going to do that because it will interfere with
+setting up Amazon Web Services later on.
+"""
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
