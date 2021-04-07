@@ -2,60 +2,48 @@
 
 <!DOCTYPE html>
 <html lang="en" class="h-100">
-
-<head>
-
+  <head>
     {% block meta %}
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width" />
-    {% endblock %}
-
-    {% block extra_meta %}
-    {% endblock %}
-
-    {% block corecss %}
+    {% endblock %} {% block extra_meta %}
+    <!---->
+    {% endblock %} {% block corecss %}
     <!--Customiseable Bulma setup link.
     To use default Bulma link to: {% static 'bulma/css/style.css' %}-->
     <link rel="stylesheet" href="{% static 'mybulma/css/mystyles.css' %}" />
     <!--Our own custom css link-->
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    {% endblock %}
-
-    {% block extra_css %}
-    {% endblock %}
-
-    {% block corejs %}
-    {% endblock %}
-
-    {% block extra_js %}
+    {% endblock %} {% block extra_css %}
+    <!---->
+    {% endblock %} {% block corejs %}
+    <!---->
+    {% endblock %} {% block extra_js %}
+    <!---->
     {% endblock %}
 
     <title>Sprouts</title>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <section class="section">
-        <div class="container">
-            <h1 class="title">
-                Hello World
-            </h1>
-            <p class="subtitle">
-                My first website with <strong>Bulma</strong>!
-            </p>
+      <div class="container">
+        <div class="columns">
+          <div class="column">First column</div>
+          <div class="column">Second column</div>
+          <div class="column">Third column</div>
+          <div class="column">Fourth column</div>
         </div>
+      </div>
     </section>
 
     {% block page_header %}
+    <!---->
+    {% endblock %} {% block content %}
+    <!---->
+    {% endblock %} {% block postloadjs %}
+    <!---->
     {% endblock %}
-
-    {% block content %}
-    {% endblock %}
-
-    {% block postloadjs %}
-    {% endblock %}
-
-</body>
-
+  </body>
 </html>
